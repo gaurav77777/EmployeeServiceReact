@@ -12,13 +12,23 @@ function App() {
 
   useEffect(() => {
     // Fetching employee data from the fake API (json-server)
-    axios.get('http://localhost:5000/employees')
+    axios.get('http://localhost:8081/api/employees')
       .then(response => {
         setEmployees(response.data);
         setFilteredEmployees(response.data);
       })
       .catch(error => console.log('Error fetching employee data:', error));
   }, []);
+
+  /* useEffect(() => {
+    // Fetching employee data from the fake API (json-server)
+    axios.get('http://localhost:5000/employees')
+      .then(response => {
+        setEmployees(response.data);
+        setFilteredEmployees(response.data);
+      })
+      .catch(error => console.log('Error fetching employee data:', error));
+  }, []); */
 
   const addEmployee = (newEmployee) => {
     axios.post('http://localhost:5000/employees', newEmployee)

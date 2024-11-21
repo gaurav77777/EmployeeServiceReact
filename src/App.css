@@ -1,13 +1,24 @@
-.App {
+body {
+  background-color: #f0f4f8; /* Light grayish background for modern feel */
   font-family: 'Roboto', sans-serif;
 }
 
-h3 {
-  color: #3f51b5;
+.App {
+  background-color: #ffffff; /* White background for the main container */
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adding subtle shadow for a modern look */
+  margin-top: 30px;
+}
+
+h1 {
+  color: #3f51b5; /* Modern primary color */
 }
 
 button {
   background-color: #3f51b5;
+  color: white;
+  text-transform: capitalize;
 }
 
 button:hover {
@@ -16,4 +27,8 @@ button:hover {
 
 .MuiTableCell-root {
   font-weight: 500;
+}
+
+.MuiPaper-root {
+  background-color: #fafafa; /* Light background for paper containers */
 }
