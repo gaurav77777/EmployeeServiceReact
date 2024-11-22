@@ -4,43 +4,21 @@
       "id": "1",
       "name": "John Doe",
       "email": "john@example.com",
-      "position": "Developer"
+      "position": "Developer",
+      "salary": "70000"
     },
     {
       "id": "2",
       "name": "Jane Smith",
       "email": "jane@example.com",
-      "position": "Manager"
+      "position": "CEO",
+      "salary": "770000"
     },
     {
-      "id": "e981",
-      "name": "",
-      "position": "",
-      "salary": ""
-    },
-    {
-      "id": "9bd0",
-      "name": "",
-      "position": "",
-      "salary": ""
-    },
-    {
-      "id": "1e09",
-      "name": "",
-      "position": "",
-      "salary": ""
-    },
-    {
-      "id": "9c0c",
-      "name": "",
-      "position": "",
-      "salary": ""
-    },
-    {
-      "id": "8767",
-      "name": "",
-      "position": "",
-      "salary": ""
+      "id": "3ceb",
+      "name": "Vikram",
+      "position": "developer",
+      "salary": "700000"
     }
   ]
 }

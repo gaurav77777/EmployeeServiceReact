@@ -1,34 +1,121 @@
+/* Overall Body Styling */
 body {
-  background-color: #f0f4f8; /* Light grayish background for modern feel */
-  font-family: 'Roboto', sans-serif;
+  background-color: #f4f7f9; /* Soft, light gray background for the body */
+  font-family: 'Roboto', sans-serif; /* Clean and modern font */
+  margin: 0;
+  padding: 0;
 }
 
+/* Main App Container */
 .App {
-  background-color: #ffffff; /* White background for the main container */
+  background-color: #ffffff; /* Clean white background for the main container */
   padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adding subtle shadow for a modern look */
-  margin-top: 30px;
+  border-radius: 12px; /* Slightly rounded corners */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Slightly more shadow for depth */
+  margin-top: 40px;
 }
 
+/* Main Heading Styling */
 h1 {
-  color: #3f51b5; /* Modern primary color */
+  color: #3b3b3b; /* Darker shade for better contrast */
+  font-weight: 600;
 }
 
+/* Button Styling */
 button {
-  background-color: #3f51b5;
+  background-color: #0073e6; /* Facebook or Amazon-style blue */
   color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 4px;
   text-transform: capitalize;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
-  background-color: #303f9f;
+  background-color: #005bb5; /* Slightly darker blue on hover */
+  transform: scale(1.05); /* Slight zoom effect on hover */
 }
 
+/* Table Cell Styling */
 .MuiTableCell-root {
   font-weight: 500;
+  color: #333333; /* Slightly darker text for readability */
 }
 
+/* Paper (Card-like) Elements */
 .MuiPaper-root {
-  background-color: #fafafa; /* Light background for paper containers */
+  background-color: #f9f9f9; /* Soft background to distinguish sections */
+  border-radius: 8px; /* Rounded corners for a modern feel */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Slight shadow to make it pop */
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+/* AppBar Styling */
+.MuiAppBar-root {
+  background-color: #222222; /* Darker background for the navigation bar */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* Shadow to make it pop */
+}
+
+/* Toolbar inside AppBar */
+.MuiToolbar-root {
+  padding: 0 20px;
+  justify-content: space-between;
+}
+
+/* Typography (Logo and Title) */
+.MuiTypography-root {
+  font-weight: 700; /* Make the app title stand out */
+  color: white; /* White text on dark background */
+}
+
+/* Form Control (Select Dropdown) */
+.MuiFormControl-root {
+  margin-bottom: 20px;
+}
+
+.MuiInputLabel-root {
+  color: #0073e6; /* Blue accent for labels */
+}
+
+.MuiSelect-root {
+  border-radius: 8px;
+  background-color: #fafafa; /* Light background for dropdown */
+}
+
+/* Hover and Focus Effects on Input */
+.MuiInputBase-root:hover {
+  border-color: #0073e6;
+}
+
+.MuiInputBase-root:focus-within {
+  box-shadow: 0 0 0 2px #0073e6;
+}
+
+/* Hover effects for cards and list items */
+.MuiCard-root:hover, .MuiListItem-root:hover {
+  background-color: #f1f1f1; /* Light hover effect for items */
+  transform: translateY(-5px); /* Slight lift effect on hover */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+/* General Layout and Spacing */
+.container {
+  margin: 0 auto;
+  max-width: 1200px; /* Max width for the content */
+}
+
+/* Input Fields for Forms */
+.MuiInputBase-root {
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #fafafa;
+}
+
+.MuiInputBase-root:focus-within {
+  background-color: white;
 }
