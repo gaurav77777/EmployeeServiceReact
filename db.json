@@ -13,12 +13,6 @@
       "email": "jane@example.com",
       "position": "CEO",
       "salary": "770000"
-    },
-    {
-      "id": "3ceb",
-      "name": "Vikram",
-      "position": "developer",
-      "salary": "700000"
     }
   ]
 }

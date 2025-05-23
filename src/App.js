@@ -110,7 +110,7 @@ function App() {
                   </Select>
                 </FormControl>
 
-                <EmployeeList employees={filteredEmployees} />
+                <EmployeeList employees={filteredEmployees} deleteEmployee={deleteEmployee}/>
               </Box>
             } />
 
