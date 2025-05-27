@@ -5,11 +5,30 @@ import { AppBar, Toolbar, Typography, Button, IconButton, Container, Box, FormCo
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AddEmployee from './components/AddEmployee';
 import EmployeeList from './components/EmployeeList';
+import Login from './components/Login'
+
+
+
+
+
+
+
+
+axios.defaults.baseURL = 'http://localhost:8080';
+axios.interceptors.request.use(config => {
+  const token = localStorage.getItem('token');
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
+
+
+
 
 function App() {
   const [employees, setEmployees] = useState([]);
   const [filter, setFilter] = useState('');
   const [filteredEmployees, setFilteredEmployees] = useState([]);
+  const [token, setToken] = useState(localStorage.getItem('token'));
 
  
  
@@ -55,6 +74,8 @@ function App() {
 
   const handleLogout = () => {
     console.log('Logging out...');
+    localStorage.removeItem('token'); // Remove token from storage
+    setToken(null);                   // Clear token state
     alert('Logged out!');
   };
 
@@ -69,6 +90,9 @@ function App() {
       setFilteredEmployees(employees); // Reset to all employees if no filter
     }
   };
+  if (!token) {
+    return <Login onLogin={(t) => setToken(t)} />;
+  }
 
   return (
     <Router>
@@ -95,31 +119,21 @@ function App() {
           <Routes>
             {/* Home page with Employee List */}
             <Route path="/" element={
-              <Box my={4} textAlign="center">
-                <FormControl fullWidth margin="normal">
-                  <InputLabel>Filter by Position</InputLabel>
-                  <Select
-                    value={filter}
-                    label="Filter by Position"
-                    onChange={handleFilterChange}
-                  >
-                    <MenuItem value="">All</MenuItem>
-                    <MenuItem value="Manager">Manager</MenuItem>
-                    <MenuItem value="Developer">Developer</MenuItem>
-                    <MenuItem value="Designer">Designer</MenuItem>
-                  </Select>
-                </FormControl>
+                           
+                <EmployeeList
+                  employees={filteredEmployees}
+                  deleteEmployee={deleteEmployee}
+                  filter={filter}
+                  handleFilterChange={handleFilterChange}
+                />           
 
-                <EmployeeList employees={filteredEmployees} deleteEmployee={deleteEmployee}/>
-              </Box>
+             /*   <EmployeeList employees={filteredEmployees} deleteEmployee={deleteEmployee}/> */
+              
             } />
 
             {/* Add Employee Page (same as Register) */}
             <Route path="/add-employee" element={
-              <Box my={4} textAlign="center">
-                <Typography variant="h4" gutterBottom>
-                  Register New Employee
-                </Typography>
+
                 <AddEmployee addEmployee={(newEmployee) => {
                   axios.post('http://localhost:5000/employees', newEmployee)
                     .then(response => {
@@ -127,7 +141,7 @@ function App() {
                     })
                     .catch(error => console.log('Error adding employee:', error));
                 }} />
-              </Box>
+              
             } />
           </Routes>
         </Container>
