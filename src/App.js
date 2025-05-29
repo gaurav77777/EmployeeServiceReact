@@ -5,7 +5,9 @@ import { AppBar, Toolbar, Typography, Button, IconButton, Container, Box, FormCo
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AddEmployee from './components/AddEmployee';
 import EmployeeList from './components/EmployeeList';
-import Login from './components/Login'
+import Login from './components/Login';
+import Home from './components/Home';
+
 
 
 
@@ -42,7 +44,8 @@ function App() {
       })
       .catch(error => console.log('Error fetching employee data:', error));
   }, []); */
-
+  
+  
 
   // Fetch employee data from the fake API (json-server)
   useEffect(() => {
@@ -103,9 +106,13 @@ function App() {
             <Typography variant="h6" style={{ flexGrow: 1 }}>
               Employee Management
             </Typography>
+            <Link to="/employees" style={{ textDecoration: 'none' }}>
+              <Button sx={{ color: '#fff' }}>Employees List</Button>
+            </Link>
+
             {/* Link to navigate to Add Employee Form */}
             <Link to="/add-employee" style={{ textDecoration: 'none' }}>
-              <Button color="inherit">Register New Employee</Button>
+              <Button sx={{ color: '#fff' }}>Register New Employee</Button>
             </Link>
             <Button color="inherit" onClick={handleLogout} startIcon={<ExitToAppIcon />}>
               Logout
@@ -117,8 +124,15 @@ function App() {
         {/* Page Content */}
         <Container maxWidth="md" style={{ marginTop: '30px', backgroundColor: 'white', padding: '20px', borderRadius: '8px' }}>
           <Routes>
+
+
+
+
+
+            {/* Home page */}
+            <Route path="/" element={<Home />} />
             {/* Home page with Employee List */}
-            <Route path="/" element={
+            <Route path="/employees" element={
                            
                 <EmployeeList
                   employees={filteredEmployees}

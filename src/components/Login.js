@@ -1,10 +1,13 @@
 // src/components/Login.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Box, Button, TextField,  Typography,  Paper,  Alert} from '@mui/material';
+
 
 function Login({ onLogin }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleLogin = async () => {
     try {
@@ -23,12 +26,55 @@ function Login({ onLogin }) {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <input placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
-      <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-      <button onClick={handleLogin}>Login</button>
-    </div>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      height="100vh"
+      bgcolor="#f0f2f5"
+    >
+      <Paper elevation={3} sx={{ padding: 4, width: 350 }}>
+        <Typography variant="h5" align="center" gutterBottom>
+          Login
+        </Typography>
+
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
+
+        <TextField
+          label="Username"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+
+        <TextField
+          label="Password"
+          type="password"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={handleLogin}
+          disabled={!username || !password}
+          sx={{ mt: 2 }}
+        >
+          Login
+        </Button>
+      </Paper>
+    </Box>
   );
 }
 
