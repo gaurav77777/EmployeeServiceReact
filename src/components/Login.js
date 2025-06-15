@@ -5,9 +5,12 @@ import { Box, Button, TextField,  Typography,  Paper,  Alert} from '@mui/materia
 
 
 function Login({ onLogin }) {
+  
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  //throw new Error("Test error from Login"); // ✅ Insert here to simulate a render error
 
   const handleLogin = async () => {
     try {

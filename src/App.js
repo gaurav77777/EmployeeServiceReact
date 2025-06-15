@@ -14,6 +14,8 @@ import Home from './components/Home';
 
 
 
+import ErrorBoundary from './components/ErrorBoundary';
+
 
 
 axios.defaults.baseURL = 'http://localhost:8080';
@@ -94,7 +96,11 @@ function App() {
     }
   };
   if (!token) {
-    return <Login onLogin={(t) => setToken(t)} />;
+    return (
+      <ErrorBoundary>
+    <Login onLogin={(t) => setToken(t)} />
+      </ErrorBoundary>
+  );
   }
 
   return (
