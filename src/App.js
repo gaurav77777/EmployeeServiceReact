@@ -15,6 +15,7 @@ import Home from './components/Home';
 
 
 import ErrorBoundary from './components/ErrorBoundary';
+import EmployeeNewList from './components/EmployeeNewList';
 
 
 
@@ -34,9 +35,15 @@ function App() {
   const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [token, setToken] = useState(localStorage.getItem('token'));
 
- 
- 
- 
+
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     printTree();
+  //   }, 70);
+  // }, []);
+
+
   /* useEffect(() => {
     // Fetching employee data from the fake API (json-server)
     axios.get('http://localhost:8081/api/employees')
@@ -46,8 +53,8 @@ function App() {
       })
       .catch(error => console.log('Error fetching employee data:', error));
   }, []); */
-  
-  
+
+
 
   // Fetch employee data from the fake API (json-server)
   useEffect(() => {
@@ -75,7 +82,7 @@ function App() {
       .catch(error => console.log('Error deleting employee:', error));
   };
 
-  
+
 
   const handleLogout = () => {
     console.log('Logging out...');
@@ -95,13 +102,13 @@ function App() {
       setFilteredEmployees(employees); // Reset to all employees if no filter
     }
   };
-  if (!token) {
-    return (
-      <ErrorBoundary>
-    <Login onLogin={(t) => setToken(t)} />
-      </ErrorBoundary>
-  );
-  }
+  // if (!token) {
+  //   return (
+  //     <ErrorBoundary>
+  //   <Login onLogin={(t) => setToken(t)} />
+  //     </ErrorBoundary>
+  // );
+  // }
 
   return (
     <Router>
@@ -123,7 +130,7 @@ function App() {
             <Button color="inherit" onClick={handleLogout} startIcon={<ExitToAppIcon />}>
               Logout
             </Button>
-            
+
           </Toolbar>
         </AppBar>
 
@@ -139,29 +146,42 @@ function App() {
             <Route path="/" element={<Home />} />
             {/* Home page with Employee List */}
             <Route path="/employees" element={
-                           
-                <EmployeeList
-                  employees={filteredEmployees}
-                  deleteEmployee={deleteEmployee}
-                  filter={filter}
-                  handleFilterChange={handleFilterChange}
-                />           
 
-             /*   <EmployeeList employees={filteredEmployees} deleteEmployee={deleteEmployee}/> */
-              
+              <EmployeeList
+                employees={filteredEmployees}
+                deleteEmployee={deleteEmployee}
+                filter={filter}
+                handleFilterChange={handleFilterChange}
+              />
+
+
+
+              /*   <EmployeeList employees={filteredEmployees} deleteEmployee={deleteEmployee}/> */
+
+            } />
+
+            <Route path="/listOfData" element={
+
+              <EmployeeNewList
+                employees={filteredEmployees}
+                deleteEmployee={deleteEmployee}
+                filter={filter}
+                handleFilterChange={handleFilterChange}
+              />
+
             } />
 
             {/* Add Employee Page (same as Register) */}
             <Route path="/add-employee" element={
 
-                <AddEmployee addEmployee={(newEmployee) => {
-                  axios.post('http://localhost:5000/employees', newEmployee)
-                    .then(response => {
-                      setEmployees([...employees, response.data]);
-                    })
-                    .catch(error => console.log('Error adding employee:', error));
-                }} />
-              
+              <AddEmployee addEmployee={(newEmployee) => {
+                axios.post('http://localhost:5000/employees', newEmployee)
+                  .then(response => {
+                    setEmployees([...employees, response.data]);
+                  })
+                  .catch(error => console.log('Error adding employee:', error));
+              }} />
+
             } />
           </Routes>
         </Container>
