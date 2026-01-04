@@ -16,6 +16,13 @@ import Home from './components/Home';
 
 import ErrorBoundary from './components/ErrorBoundary';
 import EmployeeNewList from './components/EmployeeNewList';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Badge from '@mui/material/Badge';
+import AppBarCart from './components/AppBarCart';
+import EmployeeMarketplace from './components/EmployeeMarketplace';
+import CartPage from './components/CartPage';
+
+
 
 
 
@@ -34,6 +41,10 @@ function App() {
   const [filter, setFilter] = useState('');
   const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [token, setToken] = useState(localStorage.getItem('token'));
+
+  const [admins, setAdmins] = useState([]);
+  const [cartCount, setCartCount] = useState(0);
+
 
 
 
@@ -65,6 +76,32 @@ function App() {
       })
       .catch(error => console.log('Error fetching employee data:', error));
   }, []);
+
+
+
+
+
+
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/admins')
+      .then(response => {
+        setAdmins(response.data);
+      })
+      .catch(error => console.log('Error fetching admin data:', error));
+  }, []);
+
+
+
+  const deleteAdmin = (id) => {
+    axios.delete(`http://localhost:5000/admins/${id}`)
+      .then(() => {
+        setAdmins(admins.filter(admin => admin.id !== id));
+      })
+      .catch(error => console.log('Error deleting admin:', error));
+  };
+
+
 
   const addEmployee = (newEmployee) => {
     axios.post('http://localhost:5000/employees', newEmployee)
@@ -122,14 +159,31 @@ function App() {
             <Link to="/employees" style={{ textDecoration: 'none' }}>
               <Button sx={{ color: '#fff' }}>Employees List</Button>
             </Link>
+            <Link to="/listOfData" style={{ textDecoration: 'none' }}>
+              <Button sx={{ color: '#fff' }}>New Employees List</Button>
+            </Link>
 
             {/* Link to navigate to Add Employee Form */}
             <Link to="/add-employee" style={{ textDecoration: 'none' }}>
               <Button sx={{ color: '#fff' }}>Register New Employee</Button>
             </Link>
+
+            <Typography variant="h6" style={{ flexGrow: 1 }}>
+              Employee Marketplace
+            </Typography>
+
+            <Link to="/marketplace" style={{ textDecoration: 'none' }}>
+              <Button sx={{ color: '#fff' }}>Marketplace</Button>
+            </Link>
+
+            <Link to="/cart" style={{ textDecoration: 'none' }}>
+              <AppBarCart /> {/* Cart badge clickable */}
+            </Link>
+
             <Button color="inherit" onClick={handleLogout} startIcon={<ExitToAppIcon />}>
               Logout
             </Button>
+
 
           </Toolbar>
         </AppBar>
@@ -164,7 +218,9 @@ function App() {
 
               <EmployeeNewList
                 employees={filteredEmployees}
+                admins={admins}
                 deleteEmployee={deleteEmployee}
+                deleteAdmin={deleteAdmin}
                 filter={filter}
                 handleFilterChange={handleFilterChange}
               />
@@ -183,6 +239,11 @@ function App() {
               }} />
 
             } />
+
+
+            <Route path="/marketplace" element={<EmployeeMarketplace />} />
+
+            <Route path="/cart" element={<CartPage />} />
           </Routes>
         </Container>
       </div>
