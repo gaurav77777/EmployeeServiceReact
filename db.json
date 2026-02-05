@@ -14,5 +14,25 @@
       "position": "CEO",
       "salary": "770000"
     }
+  ],
+  "admins": [
+    {
+      "id": "ADM-001",
+      "name": "Michael Carter",
+      "email": "michael.carter@company.com",
+      "role": "System Admin",
+      "status": "active",
+      "salary": 120000,
+      "createdAt": "2024-06-15"
+    },
+    {
+      "id": "ADM-007",
+      "name": "Daniel Roberts",
+      "email": "daniel.roberts@company.com",
+      "role": "Admin",
+      "status": "inactive",
+      "salary": 105000,
+      "createdAt": "2023-11-20"
+    }
   ]
 }

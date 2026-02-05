@@ -7,15 +7,23 @@ import AddEmployee from './components/AddEmployee';
 import EmployeeList from './components/EmployeeList';
 import Login from './components/Login';
 import Home from './components/Home';
-
-
-
-
-
-
-
 import ErrorBoundary from './components/ErrorBoundary';
 import EmployeeNewList from './components/EmployeeNewList';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Badge from '@mui/material/Badge';
+import AppBarCart from './components/AppBarCart';
+import EmployeeMarketplace from './components/EmployeeMarketplace';
+import CartPage from './components/CartPage';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
+import MenuIcon from '@mui/icons-material/Menu';
+
+
+
 
 
 
@@ -34,6 +42,10 @@ function App() {
   const [filter, setFilter] = useState('');
   const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [token, setToken] = useState(localStorage.getItem('token'));
+
+  const [admins, setAdmins] = useState([]);
+  const [cartCount, setCartCount] = useState(0);
+
 
 
 
@@ -55,6 +67,11 @@ function App() {
   }, []); */
 
 
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const toggleDrawer = (open) => () => {
+    setDrawerOpen(open);
+  };
 
   // Fetch employee data from the fake API (json-server)
   useEffect(() => {
@@ -65,6 +82,32 @@ function App() {
       })
       .catch(error => console.log('Error fetching employee data:', error));
   }, []);
+
+
+
+
+
+
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/admins')
+      .then(response => {
+        setAdmins(response.data);
+      })
+      .catch(error => console.log('Error fetching admin data:', error));
+  }, []);
+
+
+
+  const deleteAdmin = (id) => {
+    axios.delete(`http://localhost:5000/admins/${id}`)
+      .then(() => {
+        setAdmins(admins.filter(admin => admin.id !== id));
+      })
+      .catch(error => console.log('Error deleting admin:', error));
+  };
+
+
 
   const addEmployee = (newEmployee) => {
     axios.post('http://localhost:5000/employees', newEmployee)
@@ -116,23 +159,105 @@ function App() {
         {/* Navigation Bar */}
         <AppBar position="static" style={{ backgroundColor: '#3f51b5' }}>
           <Toolbar>
-            <Typography variant="h6" style={{ flexGrow: 1 }}>
+            <IconButton
+              edge="start"
+              color="inherit"
+              onClick={toggleDrawer(true)}
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon />
+            </IconButton>
+
+            <Typography
+              variant="h6"
+              component={Link}
+              to="/"
+              sx={{
+                flexGrow: 1,
+                textDecoration: 'none',
+                color: 'inherit',
+                cursor: 'pointer'
+              }}
+            >
               Employee Management
             </Typography>
-            <Link to="/employees" style={{ textDecoration: 'none' }}>
+
+            {/* <Link to="/employees" style={{ textDecoration: 'none' }}>
               <Button sx={{ color: '#fff' }}>Employees List</Button>
-            </Link>
+            </Link> */}
+            {/* <Link to="/listOfData" style={{ textDecoration: 'none' }}>
+              <Button sx={{ color: '#fff' }}>New Employees List</Button>
+            </Link> */}
 
             {/* Link to navigate to Add Employee Form */}
-            <Link to="/add-employee" style={{ textDecoration: 'none' }}>
+            {/* <Link to="/add-employee" style={{ textDecoration: 'none' }}>
               <Button sx={{ color: '#fff' }}>Register New Employee</Button>
+            </Link> */}
+
+
+
+            {/* <Link to="/marketplace" style={{ textDecoration: 'none' }}>
+              <Button sx={{ color: '#fff' }}>Employee Marketplace</Button>
+            </Link> */}
+
+            <Link to="/cart" style={{ textDecoration: 'none' }}>
+              <AppBarCart /> {/* Cart badge clickable */}
             </Link>
+
             <Button color="inherit" onClick={handleLogout} startIcon={<ExitToAppIcon />}>
               Logout
             </Button>
 
+
           </Toolbar>
         </AppBar>
+
+        <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
+          <Box sx={{ width: 260 }} role="presentation" onClick={toggleDrawer(false)}>
+
+            {/* ADMIN SERVICE */}
+            <List>
+              <Typography sx={{ pl: 2, pt: 2 }} variant="subtitle1">
+                Admin Service
+              </Typography>
+
+              <ListItem disablePadding>
+                <ListItemButton component={Link} to="/employees">
+                  <ListItemText primary="Employee List" />
+                </ListItemButton>
+              </ListItem>
+
+              <ListItem disablePadding>
+                <ListItemButton component={Link} to="/listOfData">
+                  <ListItemText primary="New Employee List" />
+                </ListItemButton>
+              </ListItem>
+
+              <ListItem disablePadding>
+                <ListItemButton component={Link} to="/add-employee">
+                  <ListItemText primary="Register Employee" />
+                </ListItemButton>
+              </ListItem>
+            </List>
+
+            <Divider />
+
+            {/* EMPLOYEE SERVICE */}
+            <List>
+              <Typography sx={{ pl: 2, pt: 2 }} variant="subtitle1">
+                Employee Service
+              </Typography>
+
+              <ListItem disablePadding>
+                <ListItemButton component={Link} to="/marketplace">
+                  <ListItemText primary="Employee Marketplace" />
+                </ListItemButton>
+              </ListItem>
+            </List>
+
+          </Box>
+        </Drawer>
+
 
         {/* Page Content */}
         <Container maxWidth="md" style={{ marginTop: '30px', backgroundColor: 'white', padding: '20px', borderRadius: '8px' }}>
@@ -164,7 +289,9 @@ function App() {
 
               <EmployeeNewList
                 employees={filteredEmployees}
+                admins={admins}
                 deleteEmployee={deleteEmployee}
+                deleteAdmin={deleteAdmin}
                 filter={filter}
                 handleFilterChange={handleFilterChange}
               />
@@ -183,6 +310,11 @@ function App() {
               }} />
 
             } />
+
+
+            <Route path="/marketplace" element={<EmployeeMarketplace />} />
+
+            <Route path="/cart" element={<CartPage />} />
           </Routes>
         </Container>
       </div>
