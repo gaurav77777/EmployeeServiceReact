@@ -40,3 +40,8 @@ code {
   max-width: 600px;
   transform: scale(0.85);
 }
+
+/* Bug: Everything is stuck / can’t scroll (VERY visible) */
+body {
+  overflow: hidden;
+}
