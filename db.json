@@ -13,6 +13,12 @@
       "email": "jane@example.com",
       "position": "CEO",
       "salary": "770000"
+    },
+    {
+      "id": "dfc5",
+      "name": "Slow Panda",
+      "position": "Architect",
+      "salary": "70000"
     }
   ],
   "admins": [
