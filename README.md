@@ -1,6 +1,12 @@
 React frontend for Employee Service
 
 
+
+
+
+This Is Main Branch For Latest Version Of React. Meaning That Consider This Branch As Main Branch For Any Latest React Version Of This Project . So That The Main Branch Remian Stable With Stable React Version .
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
