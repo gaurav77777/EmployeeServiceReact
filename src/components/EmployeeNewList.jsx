@@ -1,15 +1,39 @@
 import React, { useState } from 'react';
 import {
-    Box, FormControl, InputLabel, Select, MenuItem, IconButton, Tabs,
+    Box,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    IconButton,
+    Tabs,
     Tab
 } from '@mui/material';
+
 import DeleteIcon from '@mui/icons-material/Delete';
 import MUIDataTable from "mui-datatables";
 
-function EmployeeNewList({ employees, admins, deleteEmployee, deleteAdmin, filter, handleFilterChange }) {
+import { useSelector, useDispatch } from "react-redux";
+import { deleteEmployee, deleteAdmin } from "../redux/slice/employeeSlice";
 
-    const [quote, SetQuote] = useState('');
+function EmployeeNewList() {
+
+    const dispatch = useDispatch();
+
+    const employees = useSelector((state) => state.employee.employees);
+    const admins = useSelector((state) => state.employee.admins);
+
+    const [filter, setFilter] = useState('');
     const [activeTab, setActiveTab] = useState(0);
+
+    const handleFilterChange = (event) => {
+        setFilter(event.target.value);
+    };
+
+    const filteredEmployees =
+        filter === ""
+            ? employees
+            : employees.filter((emp) => emp.position === filter);
 
     const columns = [
         {
@@ -31,11 +55,12 @@ function EmployeeNewList({ employees, admins, deleteEmployee, deleteAdmin, filte
                 sort: false,
                 filter: false,
                 customBodyRenderLite: (dataIndex) => {
-                    const employee = employees[dataIndex];
+                    const employee = filteredEmployees[dataIndex];
+
                     return (
                         <IconButton
                             color="error"
-                            onClick={() => deleteEmployee(employee.id)}
+                            onClick={() => dispatch(deleteEmployee(employee.id))}
                         >
                             <DeleteIcon />
                         </IconButton>
@@ -45,17 +70,7 @@ function EmployeeNewList({ employees, admins, deleteEmployee, deleteAdmin, filte
         }
     ];
 
-
-
-
-
-
-
-
-
-
-
-    // Admin Columns
+    // Admin Table Columns
     const adminColumns = [
         { name: "name", label: "Name" },
         { name: "role", label: "Role" },
@@ -68,10 +83,11 @@ function EmployeeNewList({ employees, admins, deleteEmployee, deleteAdmin, filte
                 filter: false,
                 customBodyRenderLite: (dataIndex) => {
                     const admin = admins[dataIndex];
+
                     return (
                         <IconButton
                             color="error"
-                            onClick={() => deleteAdmin(admin.id)}
+                            onClick={() => dispatch(deleteAdmin(admin.id))}
                         >
                             <DeleteIcon />
                         </IconButton>
@@ -85,15 +101,11 @@ function EmployeeNewList({ employees, admins, deleteEmployee, deleteAdmin, filte
         selectableRows: "none",
         elevation: 0,
         rowsPerPage: 5,
-        rowsPerPageOptions: [5, 10, 20],
+        rowsPerPageOptions: [5, 10, 20]
     };
 
     return (
         <Box my={4} textAlign="center">
-
-
-
-
 
             <Tabs
                 value={activeTab}
@@ -104,13 +116,12 @@ function EmployeeNewList({ employees, admins, deleteEmployee, deleteAdmin, filte
                 <Tab label="Admins" />
             </Tabs>
 
-
             {/* Employee Tab */}
             {activeTab === 0 && (
                 <>
-                    {/* Filter Dropdown */}
                     <FormControl fullWidth margin="normal">
                         <InputLabel>Filter by Position</InputLabel>
+
                         <Select
                             value={filter}
                             label="Filter by Position"
@@ -121,19 +132,17 @@ function EmployeeNewList({ employees, admins, deleteEmployee, deleteAdmin, filte
                             <MenuItem value="Developer">Developer</MenuItem>
                             <MenuItem value="Designer">Designer</MenuItem>
                         </Select>
+
                     </FormControl>
 
-                    {/* MUI Data Table */}
                     <MUIDataTable
                         title={"Employee List"}
-                        data={employees}
+                        data={filteredEmployees}
                         columns={columns}
                         options={options}
                     />
                 </>
             )}
-
-
 
             {/* Admin Tab */}
             {activeTab === 1 && (
@@ -144,6 +153,7 @@ function EmployeeNewList({ employees, admins, deleteEmployee, deleteAdmin, filte
                     options={options}
                 />
             )}
+
         </Box>
     );
 }
