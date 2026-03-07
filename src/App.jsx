@@ -24,7 +24,17 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 
 
+import WorkflowQueue from './components/WorkflowQueue';
+import WorkflowDetail from './components/WorkflowDetail';
 
+
+
+
+
+
+
+
+import 'rsuite/dist/rsuite.min.css';
 
 
 axios.defaults.baseURL = 'http://localhost:8080';
@@ -238,6 +248,17 @@ function App() {
                   <ListItemText primary="Register Employee" />
                 </ListItemButton>
               </ListItem>
+
+
+
+
+
+
+              <ListItem disablePadding>
+                <ListItemButton component={Link} to="/admin/workflows">
+                  <ListItemText primary="Workflow Queue" />
+                </ListItemButton>
+              </ListItem>
             </List>
 
             <Divider />
@@ -315,6 +336,8 @@ function App() {
             <Route path="/marketplace" element={<EmployeeMarketplace />} />
 
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/admin/workflows" element={<WorkflowQueue />} />
+            <Route path="/admin/workflows/:id" element={<WorkflowDetail />} />
           </Routes>
         </Container>
       </div>
