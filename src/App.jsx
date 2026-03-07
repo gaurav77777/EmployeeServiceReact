@@ -35,6 +35,7 @@ import WorkflowDetail from './components/WorkflowDetail';
 
 
 import 'rsuite/dist/rsuite.min.css';
+import Chatbot from './components/Chatbot';
 
 
 axios.defaults.baseURL = 'http://localhost:8080';
@@ -341,6 +342,7 @@ function App() {
           </Routes>
         </Container>
       </div>
+      <Chatbot />
     </Router>
   );
 }
