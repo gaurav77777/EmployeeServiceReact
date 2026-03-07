@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import {
     Box,
     FormControl,
@@ -7,24 +7,34 @@ import {
     MenuItem,
     IconButton,
     Tabs,
-    Tab
-} from '@mui/material';
+    Tab,
+} from "@mui/material";
 
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 import MUIDataTable from "mui-datatables";
 
 import { useSelector, useDispatch } from "react-redux";
-import { deleteEmployee, deleteAdmin } from "../redux/slice/employeeSlice";
+
+import {
+    fetchEmployees,
+    fetchAdmins,
+    deleteEmployee,
+    deleteAdmin,
+} from "../redux/slice/employeeSlice";
 
 function EmployeeNewList() {
-
     const dispatch = useDispatch();
 
-    const employees = useSelector((state) => state.employee.employees);
-    const admins = useSelector((state) => state.employee.admins);
+    const employees = useSelector((state) => state.employeeState.employees);
+    const admins = useSelector((state) => state.employeeState.admins);
 
-    const [filter, setFilter] = useState('');
+    const [filter, setFilter] = useState("");
     const [activeTab, setActiveTab] = useState(0);
+
+    useEffect(() => {
+        dispatch(fetchEmployees());
+        dispatch(fetchAdmins());
+    }, [dispatch]);
 
     const handleFilterChange = (event) => {
         setFilter(event.target.value);
@@ -38,15 +48,15 @@ function EmployeeNewList() {
     const columns = [
         {
             name: "name",
-            label: "Name"
+            label: "Name",
         },
         {
             name: "position",
-            label: "Position"
+            label: "Position",
         },
         {
             name: "salary",
-            label: "Salary"
+            label: "Salary",
         },
         {
             name: "actions",
@@ -65,12 +75,11 @@ function EmployeeNewList() {
                             <DeleteIcon />
                         </IconButton>
                     );
-                }
-            }
-        }
+                },
+            },
+        },
     ];
 
-    // Admin Table Columns
     const adminColumns = [
         { name: "name", label: "Name" },
         { name: "role", label: "Role" },
@@ -92,21 +101,20 @@ function EmployeeNewList() {
                             <DeleteIcon />
                         </IconButton>
                     );
-                }
-            }
-        }
+                },
+            },
+        },
     ];
 
     const options = {
         selectableRows: "none",
         elevation: 0,
         rowsPerPage: 5,
-        rowsPerPageOptions: [5, 10, 20]
+        rowsPerPageOptions: [5, 10, 20],
     };
 
     return (
         <Box my={4} textAlign="center">
-
             <Tabs
                 value={activeTab}
                 onChange={(e, newValue) => setActiveTab(newValue)}
@@ -116,7 +124,7 @@ function EmployeeNewList() {
                 <Tab label="Admins" />
             </Tabs>
 
-            {/* Employee Tab */}
+            {/* Employees */}
             {activeTab === 0 && (
                 <>
                     <FormControl fullWidth margin="normal">
@@ -132,7 +140,6 @@ function EmployeeNewList() {
                             <MenuItem value="Developer">Developer</MenuItem>
                             <MenuItem value="Designer">Designer</MenuItem>
                         </Select>
-
                     </FormControl>
 
                     <MUIDataTable
@@ -144,16 +151,15 @@ function EmployeeNewList() {
                 </>
             )}
 
-            {/* Admin Tab */}
+            {/* Admins */}
             {activeTab === 1 && (
                 <MUIDataTable
-                    title="Admin List"
+                    title={"Admin List"}
                     data={admins}
                     columns={adminColumns}
                     options={options}
                 />
             )}
-
         </Box>
     );
 }
