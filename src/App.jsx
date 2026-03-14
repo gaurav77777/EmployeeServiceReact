@@ -282,7 +282,15 @@ function App() {
 
 
         {/* Page Content */}
-        <Container maxWidth="md" style={{ marginTop: '30px', backgroundColor: 'white', padding: '20px', borderRadius: '8px' }}>
+        {/* <Container maxWidth="md" style={{ marginTop: '30px', backgroundColor: 'white', padding: '20px', borderRadius: '8px' }}> */}
+        <Container
+          maxWidth={false}
+          sx={{
+            mt: 3,
+            width: '100%',
+            px: 3
+          }}
+        >
           <Routes>
 
 
