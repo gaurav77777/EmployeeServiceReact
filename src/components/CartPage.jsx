@@ -5,6 +5,29 @@ import { connect } from 'react-redux';
 import { Grid, Typography, Button, Box, Divider } from '@mui/material';
 
 function CartPage({ cartItems, removeFromCart, clearCart }) {
+
+
+
+
+
+
+
+
+
+    const handleSubmit = () => {
+        if (cartItems.length === 0) {
+            alert("Cart is empty!");
+            return;
+        }
+
+        console.log("Submitting cart:", cartItems);
+
+        // Example: Clear cart after submit
+        clearCart();
+
+        alert("Order submitted successfully!");
+    };
+
     return (
         <Box>
             <Typography variant="h4" gutterBottom>
@@ -57,7 +80,14 @@ function CartPage({ cartItems, removeFromCart, clearCart }) {
                     ))}
 
                     {/* Clear Cart Button */}
-                    <Box mt={3}>
+                    <Box mt={3} display="flex" gap={2}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleSubmit}
+                        >
+                            Submit Order
+                        </Button>
                         <Button variant="contained" color="secondary" onClick={clearCart}>
                             Clear Cart
                         </Button>

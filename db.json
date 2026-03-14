@@ -19,6 +19,12 @@
       "name": "Slow Panda",
       "position": "Architect",
       "salary": "70000"
+    },
+    {
+      "id": "1772892849873",
+      "name": "Test",
+      "position": "Developer",
+      "salary": "77000"
     }
   ],
   "admins": [
@@ -39,6 +45,45 @@
       "status": "inactive",
       "salary": 105000,
       "createdAt": "2023-11-20"
+    }
+  ],
+  "workflows": [
+    {
+      "id": "REQ-001",
+      "title": "Salary Revision Request",
+      "description": "Request for annual salary revision",
+      "createdBy": "1",
+      "creatorType": "employee",
+      "assignedTo": "ADM-001",
+      "status": "pending",
+      "priority": "high",
+      "createdAt": "2026-03-01",
+      "updatedAt": "2026-03-01",
+      "approvedAt": null,
+      "comments": "Waiting for review",
+      "workflowType": {
+        "tier1": "Admin",
+        "tier2": "Leave",
+        "tier3": "SickLeave"
+      }
+    },
+    {
+      "id": "REQ-002",
+      "title": "System Access Request",
+      "description": "Request for production server access",
+      "createdBy": "dfc5",
+      "creatorType": "employee",
+      "assignedTo": "ADM-001",
+      "status": "approved",
+      "priority": "medium",
+      "createdAt": "2026-02-25",
+      "updatedAt": "2026-02-26",
+      "approvedAt": "2026-02-26",
+      "comments": "Approved by system admin",
+      "workflowType": {
+        "tier1": "Admin",
+        "tier2": "Leave"
+      }
     }
   ]
 }

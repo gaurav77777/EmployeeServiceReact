@@ -1,28 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import {
-    Box, FormControl, InputLabel, Select, MenuItem, IconButton, Tabs,
-    Tab
-} from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+    Box,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    IconButton,
+    Tabs,
+    Tab,
+} from "@mui/material";
+
+import DeleteIcon from "@mui/icons-material/Delete";
 import MUIDataTable from "mui-datatables";
 
-function EmployeeNewList({ employees, admins, deleteEmployee, deleteAdmin, filter, handleFilterChange }) {
+import { useSelector, useDispatch } from "react-redux";
 
-    const [quote, SetQuote] = useState('');
+import {
+    fetchEmployees,
+    fetchAdmins,
+    deleteEmployee,
+    deleteAdmin,
+} from "../redux/slice/employeeSlice";
+
+function EmployeeNewList() {
+    const dispatch = useDispatch();
+
+    const employees = useSelector((state) => state.employeeState.employees);
+    const admins = useSelector((state) => state.employeeState.admins);
+
+    const [filter, setFilter] = useState("");
     const [activeTab, setActiveTab] = useState(0);
+
+    useEffect(() => {
+        dispatch(fetchEmployees());
+        dispatch(fetchAdmins());
+    }, [dispatch]);
+
+    const handleFilterChange = (event) => {
+        setFilter(event.target.value);
+    };
+
+    const filteredEmployees =
+        filter === ""
+            ? employees
+            : employees.filter((emp) => emp.position === filter);
 
     const columns = [
         {
             name: "name",
-            label: "Name"
+            label: "Name",
         },
         {
             name: "position",
-            label: "Position"
+            label: "Position",
         },
         {
             name: "salary",
-            label: "Salary"
+            label: "Salary",
         },
         {
             name: "actions",
@@ -31,31 +65,21 @@ function EmployeeNewList({ employees, admins, deleteEmployee, deleteAdmin, filte
                 sort: false,
                 filter: false,
                 customBodyRenderLite: (dataIndex) => {
-                    const employee = employees[dataIndex];
+                    const employee = filteredEmployees[dataIndex];
+
                     return (
                         <IconButton
                             color="error"
-                            onClick={() => deleteEmployee(employee.id)}
+                            onClick={() => dispatch(deleteEmployee(employee.id))}
                         >
                             <DeleteIcon />
                         </IconButton>
                     );
-                }
-            }
-        }
+                },
+            },
+        },
     ];
 
-
-
-
-
-
-
-
-
-
-
-    // Admin Columns
     const adminColumns = [
         { name: "name", label: "Name" },
         { name: "role", label: "Role" },
@@ -68,17 +92,18 @@ function EmployeeNewList({ employees, admins, deleteEmployee, deleteAdmin, filte
                 filter: false,
                 customBodyRenderLite: (dataIndex) => {
                     const admin = admins[dataIndex];
+
                     return (
                         <IconButton
                             color="error"
-                            onClick={() => deleteAdmin(admin.id)}
+                            onClick={() => dispatch(deleteAdmin(admin.id))}
                         >
                             <DeleteIcon />
                         </IconButton>
                     );
-                }
-            }
-        }
+                },
+            },
+        },
     ];
 
     const options = {
@@ -90,11 +115,6 @@ function EmployeeNewList({ employees, admins, deleteEmployee, deleteAdmin, filte
 
     return (
         <Box my={4} textAlign="center">
-
-
-
-
-
             <Tabs
                 value={activeTab}
                 onChange={(e, newValue) => setActiveTab(newValue)}
@@ -104,13 +124,12 @@ function EmployeeNewList({ employees, admins, deleteEmployee, deleteAdmin, filte
                 <Tab label="Admins" />
             </Tabs>
 
-
-            {/* Employee Tab */}
+            {/* Employees */}
             {activeTab === 0 && (
                 <>
-                    {/* Filter Dropdown */}
                     <FormControl fullWidth margin="normal">
                         <InputLabel>Filter by Position</InputLabel>
+
                         <Select
                             value={filter}
                             label="Filter by Position"
@@ -123,22 +142,19 @@ function EmployeeNewList({ employees, admins, deleteEmployee, deleteAdmin, filte
                         </Select>
                     </FormControl>
 
-                    {/* MUI Data Table */}
                     <MUIDataTable
                         title={"Employee List"}
-                        data={employees}
+                        data={filteredEmployees}
                         columns={columns}
                         options={options}
                     />
                 </>
             )}
 
-
-
-            {/* Admin Tab */}
+            {/* Admins */}
             {activeTab === 1 && (
                 <MUIDataTable
-                    title="Admin List"
+                    title={"Admin List"}
                     data={admins}
                     columns={adminColumns}
                     options={options}
